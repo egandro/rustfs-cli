@@ -1,8 +1,5 @@
-use aws_sdk_s3::config::Region;
-use aws_sdk_s3::{Client, Config};
 use rand::{distributions::Alphanumeric, Rng};
 use std::error::Error;
-use tokio;
 
 // 生成随机 bucket 名字的函数
 fn generate_random_bucket_name() -> String {

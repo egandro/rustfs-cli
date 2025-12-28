@@ -38,6 +38,7 @@ pub struct ConfigV10 {
 }
 
 // 新建 ConfigV10
+#[allow(dead_code)]
 fn new_config_v10() -> ConfigV10 {
     ConfigV10 {
         version: "1.0".to_string(),

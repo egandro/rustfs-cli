@@ -1,6 +1,5 @@
 //pub mod cmd::alias_list;
 // use crate::cmd::{self, configx};
-use clap::command;
 
 use super::{
     admin, alias, cp, find, lsmain, mb,

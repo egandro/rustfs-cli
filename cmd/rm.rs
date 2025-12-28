@@ -1,7 +1,4 @@
-use aws_sdk_s3::{
-    operation::delete_objects,
-    types::{Delete, ObjectIdentifier},
-};
+use aws_sdk_s3::types::{Delete, ObjectIdentifier};
 use clap;
 
 #[derive(clap::Args, Debug)]

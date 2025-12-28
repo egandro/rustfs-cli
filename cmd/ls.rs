@@ -67,10 +67,6 @@ impl ContentMessage {
             self.key
         )
     }
-
-    fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap_or_else(|_| "{}".to_string())
-    }
 }
 
 // Wrapper for the AWS S3 client
@@ -82,7 +78,7 @@ struct S3ClientWrapper {
 #[async_trait]
 trait Client {
     async fn list(&self, options: &lsmain::LsOptions) -> mpsc::Receiver<ContentMessage>;
-    fn get_url(&self) -> String;
+    // fn get_url(&self) -> String;
 }
 
 enum ListResult {
@@ -200,9 +196,9 @@ impl Client for S3ClientWrapper {
         rx
     }
 
-    fn get_url(&self) -> String {
-        format!("s3://{}", self.bucket)
-    }
+    // fn get_url(&self) -> String {
+    //     format!("s3://{}", self.bucket)
+    // }
 }
 
 async fn do_list(client: impl Client + Send + Sync, options: &lsmain::LsOptions) {

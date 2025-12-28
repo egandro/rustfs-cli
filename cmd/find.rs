@@ -1,14 +1,13 @@
+#![allow(dead_code)]
 use anyhow::Result;
 use async_trait::async_trait;
 use aws_sdk_s3::Client as S3Client;
-use chrono::{Local, Utc};
+use chrono::Utc;
 use clap;
 use human_bytes::human_bytes;
-use indicatif::HumanBytes;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::error::Error;
 use std::ffi::OsStr;
 use std::path::Path;
 use std::str::FromStr;
@@ -384,7 +383,7 @@ pub async fn handle_find_command(opt: &FindOptions) {
     let small: u64 = if opt.smaller.is_some() {
         match bytesize::ByteSize::from_str(&opt.smaller.as_ref().unwrap()) {
             Ok(byte_size) => byte_size.as_u64(), // 输出字节数
-            Err(e) => 0,
+            Err(_e) => 0,
         }
     } else {
         0
@@ -392,7 +391,7 @@ pub async fn handle_find_command(opt: &FindOptions) {
     let large: u64 = if opt.larger.is_some() {
         match bytesize::ByteSize::from_str(&opt.larger.as_ref().unwrap()) {
             Ok(byte_size) => byte_size.as_u64(), // 输出字节数
-            Err(e) => 0,
+            Err(_e) => 0,
         }
     } else {
         0
@@ -422,7 +421,7 @@ pub async fn handle_find_command(opt: &FindOptions) {
         target_url: Some(opt.path.clone()),
         target_full_url: None,
     };
-    do_find(ctx.into()).await;
+    let _ = do_find(ctx.into()).await;
 }
 
 fn split_first_part(input: &str) -> (&str, &str) {
@@ -515,7 +514,7 @@ fn trim_suffix_at_max_depth(
     result_components.join("")
 }
 
-fn get_aliased_path(ctx: &FindContext, path: &str) -> String {
+fn get_aliased_path(_ctx: &FindContext, _path: &str) -> String {
     "".to_string()
     //     let separator = ctx.clnt.get_url().separator().to_string();
     //     let prefix_path = ctx.clnt.get_url().to_string();
@@ -656,7 +655,7 @@ fn match_regex_maps(m: &HashMap<String, Option<Regex>>, v: &HashMap<String, Stri
 fn match_find(ctx: &FindContext, file_content: &ContentMessage) -> bool {
     println!("key is 1: {}:", file_content.key.clone());
     let mut match_result = true;
-    let mut prefix_path = ctx.target_url.clone();
+    let prefix_path = ctx.target_url.clone();
 
     // Add separator only if targetURL doesn't already have separator
     //????????????
@@ -729,14 +728,14 @@ fn match_find(ctx: &FindContext, file_content: &ContentMessage) -> bool {
     match_result
 }
 
-async fn find(ctx_ctx: &str, ctx: &FindContext, file_content: ContentMessage) {
+async fn find(_ctx_ctx: &str, ctx: &FindContext, file_content: ContentMessage) {
     // Match the incoming content, if not matched return
     if !match_find(ctx, &file_content) {
         return;
     }
 
     // If execCmd is specified, execute the command and return
-    if let Some(exec_cmd) = &ctx.exec_cmd {
+    if let Some(_exec_cmd) = &ctx.exec_cmd {
         //exec_find(ctx_ctx, exec_cmd, &file_content);
         return;
     }
@@ -752,7 +751,7 @@ async fn find(ctx_ctx: &str, ctx: &FindContext, file_content: ContentMessage) {
     println!("{}", file_content);
 }
 
-fn strings_replace(ctx: &FindContext, args: &str, file_content: &ContentMessage) -> String {
+fn strings_replace(_ctx: &FindContext, args: &str, file_content: &ContentMessage) -> String {
     let mut str = args.to_string();
 
     // Replace all instances of {}
@@ -799,7 +798,7 @@ fn strings_replace(ctx: &FindContext, args: &str, file_content: &ContentMessage)
     //str = str.replace(r#"{"url"}"#, &format!("{:?}", share_url));
 
     // Replace all instances of {version} and {"version"}
-    
+
     //str = str.replace("{version}", &file_content.version_id.as_ref().unwrap());
    // str = str.replace(r#"{"version"}"#, &format!("{:?}", file_content.version_id));
 

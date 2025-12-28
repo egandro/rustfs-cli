@@ -101,14 +101,6 @@ pub async fn handle_cp_command(opt: &CpOptions) -> Result<(), Box<dyn std::error
     cp(opt).await
 }
 
-fn split_first_part(input: &str) -> (&str, &str) {
-    let mut parts = input.splitn(2, '/');
-    let first_part = parts.next().unwrap_or(""); // 获取 "a1"
-    let rest_part = parts.next().unwrap_or(""); // 获取 "a2/a3/a4"
-
-    (first_part, rest_part)
-}
-
 fn generate_s3_key(src: &str, target: &str) -> Result<(String, String, String), String> {
     let file_path = Path::new(src);
     let target_path = Path::new(target);
@@ -197,7 +189,6 @@ pub async fn cp(opt: &CpOptions) -> Result<(), Box<dyn std::error::Error>> {
         .expect("Failed to get upload ID")
         .to_string();
 
-    let mut offset = 0;
     let mut part_number = 1;
     let completed_parts = Arc::new(Mutex::new(Vec::new()));
 

@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::collections::HashMap;
 // use std::env;
 use regex::Regex;
@@ -21,7 +22,7 @@ lazy_static! {
 
 // 配置结构体
 #[derive(Debug, Clone)]
-struct AliasConfigV10 {
+pub struct AliasConfigV10 {
     url: String,
     access_key: Option<String>,
     secret_key: Option<String>,

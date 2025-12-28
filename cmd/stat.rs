@@ -82,10 +82,12 @@ pub struct StatOptions {
     pub limit_download: Option<String>,
 }
 
+#[allow(dead_code)]
 pub async fn handle_stat_command(opt: &StatOptions) {
     let _ = stat(opt).await;
 }
 
+#[allow(dead_code)]
 fn split_first_part(input: &str) -> (&str, &str) {
     let mut parts = input.splitn(2, '/');
     let first_part = parts.next().unwrap_or(""); // 获取 "a1"
@@ -94,7 +96,8 @@ fn split_first_part(input: &str) -> (&str, &str) {
     (first_part, rest_part)
 }
 
-async fn stat(opt: &StatOptions) {
+#[allow(dead_code)]
+async fn stat(_opt: &StatOptions) {
     // if opt.path.is_empty() {
     //     println!("path is empty");
     //     return Err("Path is empty".into());

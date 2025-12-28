@@ -3,6 +3,7 @@ use clap::Subcommand;
 use super::{aliasexport, aliaslist, aliasremove, aliasset};
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct AliasMessage {
     pub alias: String,
     pub url: String,

@@ -1,5 +1,6 @@
 #![allow(unused_variables)]
 #![allow(unused_imports)]
+#![allow(dead_code)]
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use human_bytes::human_bytes;
@@ -495,6 +496,7 @@ pub struct Status {
 // pub type TargetIDStatus = std::collections::HashMap<String, Status>; // 目标 ID 状态
 
 #[derive(Debug, Clone)]
+#[allow(non_camel_case_types)]
 pub struct backendType(String); // 后端类型
 
 impl backendType {
@@ -517,7 +519,8 @@ pub struct FSBackend {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ErasureBackend {
-    pub backendType: BackendType, // 后端类型
+    #[serde(rename = "backendType")]
+    pub backend_type: BackendType, // 后端类型
     #[serde(rename = "onlineDisks")]
     pub online_disks: i32, // 在线磁盘数量
     #[serde(rename = "offlineDisks")]
@@ -581,6 +584,7 @@ fn display_info(info: &InfoMessage) {
     // println!("{} drive online, {} drives offline, EC:{}", info.backend.onlineDisks, info.backend.offlineDisks, 0);
 }
 
+#[allow(non_snake_case)]
 pub async fn ServerInfo() {
     let res = clientadmin::get_request(
         "12345678".to_string(),

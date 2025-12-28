@@ -71,6 +71,7 @@ pub async fn get_request(
     Ok(body)
 }
 
+#[allow(dead_code)]
 #[tokio::main]
 async fn main() {
     let res = get_request(
